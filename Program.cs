@@ -63,11 +63,11 @@ namespace Nayan_Grade_Management
         static void Main(string[] args)
         {
             string[] studentName = new string[5];
-            studentName[0] = "Student 1";
-            studentName[1] = "Student 2";
-            studentName[2] = "Student 3";
-            studentName[3] = "Student 4";
-            studentName[4] = "Student 5";
+            studentName[0] = "John Carlo Nayan";
+            studentName[1] = "Lebron James";
+            studentName[2] = "Paul George";
+            studentName[3] = "Stephen Curry";
+            studentName[4] = "Boss Atan";
 
             // columns: 0 Quiz1, 1 Attendance, 2 Midterms, 3 Finals, 4 Project, 5 Total
             double[,] studentGrade = new double[5, 6];
