@@ -173,46 +173,113 @@ namespace Nayan_Grade_Management
             }
         }
 
+        static void showAllStudentNames(string[] studentName)
+        {
+            for(int i = 0; i < studentName.Length; i++)
+            {
+                Console.WriteLine(studentName[i]);
+            }
+        }
+
         static void Main(string[] args)
         {
+
+            bool isRunning = true;
+
             string[] studentName =
             {
                 "John Carlo Nayan",
                 "Lebron James",
             };
 
-            // columns: 0 Quiz1, 1 Attendance, 2 Midterms, 3 Finals, 4 Project, 5 Total
             double[,] studentGrade = new double[studentName.Length, 6];
 
-            for (int i = 0; i < studentName.Length; i++)
+            while (isRunning)
             {
-                Console.WriteLine(studentName[i] + "'s Quiz One");
-                studentGrade[i, 0] = quizOne();
 
-                Console.WriteLine(studentName[i] + "'s Attendance");
-                studentGrade[i, 1] = attendance();
+                Console.Write("0.Exit\n1. Show All Student\n2.Set Student Grade\n3. Show Student Grade\nChoice: ");
+                string choice = Console.ReadLine();
 
-                Console.WriteLine(studentName[i] + "'s Midterms");
-                studentGrade[i, 2] = midterms();
+                bool access = int.TryParse(choice, out int userChoice) && userChoice >= 0 && userChoice <= 3;
 
-                Console.WriteLine(studentName[i] + "'s Finals");
-                studentGrade[i, 3] = finals();
+                if (!access)
+                {
+                    Console.Write("\nInvalid\n");
+                }
+                else
+                {
+                    switch (userChoice)
+                    {
 
-                Console.WriteLine(studentName[i] + "'s Project");
-                studentGrade[i, 4] = project();
+                        case 0:
+                            isRunning = false;
+                            break;
 
-                studentGrade[i, 5] = totalScore(
-                    studentGrade[i, 0],
-                    studentGrade[i, 1],
-                    studentGrade[i, 2],
-                    studentGrade[i, 3],
-                    studentGrade[i, 4]
-                );
+                        case 1:
+                            showAllStudentNames(studentName);
+                            break;
 
-                Console.WriteLine(); // space after each student input
+                        case 2:
+                            Console.Write("Student ID Number: ");
+                            String studentIdNumber = Console.ReadLine();
+
+                            bool accessStudentId = int.TryParse(studentIdNumber, out int userStudentIdNumber) && userStudentIdNumber >= 0 && userStudentIdNumber <= 1;
+
+                            if (!accessStudentId)
+                            {
+                                Console.WriteLine("Invalid ID Number");
+                            }
+                            else
+                            {
+                                Console.WriteLine(studentName[userStudentIdNumber] + "'s Quiz One");
+                                studentGrade[userStudentIdNumber, 0] = quizOne();
+
+                                Console.WriteLine(studentName[userStudentIdNumber] + "'s Attendance");
+                                studentGrade[userStudentIdNumber, 1] = attendance();
+
+                                Console.WriteLine(studentName[userStudentIdNumber] + "'s Midterms");
+                                studentGrade[userStudentIdNumber, 2] = midterms();
+
+                                Console.WriteLine(studentName[userStudentIdNumber] + "'s Finals");
+                                studentGrade[userStudentIdNumber, 3] = finals();
+
+                                Console.WriteLine(studentName[userStudentIdNumber] + "'s Project");
+                                studentGrade[userStudentIdNumber, 4] = project();
+                            }
+
+                                break;
+
+                        case 3:
+
+                            Console.Write("Student ID Number: ");
+                            String studentIdNumber2 = Console.ReadLine();
+
+                            bool accessStudentId2 = int.TryParse(studentIdNumber2, out int userStudentIdNumber2) && userStudentIdNumber2 >= 0 && userStudentIdNumber2 <= 1;
+
+                            if (!accessStudentId2)
+                            {
+                                Console.WriteLine("Invalid ID Number");
+                            }
+                            else
+                            {
+
+                                Console.WriteLine("Student Name: " + studentName[userStudentIdNumber2]);
+                                Console.WriteLine("Quiz One: " + studentGrade[userStudentIdNumber2, 0] + "%");
+                                Console.WriteLine("Attendance: " + studentGrade[userStudentIdNumber2, 1] + "%");
+                                Console.WriteLine("Midterms: " + studentGrade[userStudentIdNumber2, 2] + "%");
+                                Console.WriteLine("Finals: " + studentGrade[userStudentIdNumber2, 3] + "%");
+                                Console.WriteLine("Project: " + studentGrade[userStudentIdNumber2, 4] + "%");
+                                Console.WriteLine("Total Score: " + studentGrade[userStudentIdNumber2, 5] + "%");
+                                Console.WriteLine();
+
+                            }
+
+                            break;
+                            }
+                    }
+                }
+
             }
 
-            showStudentsGrade(studentGrade, studentName);
         }
     }
-}
