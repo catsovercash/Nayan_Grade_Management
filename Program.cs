@@ -155,29 +155,29 @@ namespace Nayan_Grade_Management
             return totalScore;
         }
 
-        static void showStudentsGrade(double[,] studentGrade, string[] studentName)
-        {
+        //static void showStudentsGrade(double[,] studentGrade, string[] studentName)
+        //{
 
-            //Console.WriteLine("Student Name          |Quiz One       |Attendance     |Midterms       |Finals         |Project        |Total          ");
+        //    //Console.WriteLine("Student Name          |Quiz One       |Attendance     |Midterms       |Finals         |Project        |Total          ");
 
-            for (int i = 0; i < studentName.Length; i++)
-            {
-                Console.WriteLine("Student Name: " + studentName[i]);
-                Console.WriteLine("Quiz One: " + studentGrade[i, 0] + "%");
-                Console.WriteLine("Attendance: " + studentGrade[i, 1] + "%");
-                Console.WriteLine("Midterms: " + studentGrade[i, 2] + "%");
-                Console.WriteLine("Finals: " + studentGrade[i, 3] + "%");
-                Console.WriteLine("Project: " + studentGrade[i, 4] + "%");
-                Console.WriteLine("Total Score: " + studentGrade[i, 5] + "%");
-                Console.WriteLine();
-            }
-        }
+        //    for (int i = 0; i < studentName.Length; i++)
+        //    {
+        //        Console.WriteLine("Student Name: " + studentName[i]);
+        //        Console.WriteLine("Quiz One: " + studentGrade[i, 0] + "%");
+        //        Console.WriteLine("Attendance: " + studentGrade[i, 1] + "%");
+        //        Console.WriteLine("Midterms: " + studentGrade[i, 2] + "%");
+        //        Console.WriteLine("Finals: " + studentGrade[i, 3] + "%");
+        //        Console.WriteLine("Project: " + studentGrade[i, 4] + "%");
+        //        Console.WriteLine("Total Score: " + studentGrade[i, 5] + "%");
+        //        Console.WriteLine();
+        //    }
+        //}
 
         static void showAllStudentNames(string[] studentName)
         {
             for(int i = 0; i < studentName.Length; i++)
             {
-                Console.WriteLine("ID "+(i+1) + ". " + studentName[i]);
+                Console.WriteLine("ID " + i + ". " + studentName[i]);
             }
         }
 
@@ -235,7 +235,7 @@ namespace Nayan_Grade_Management
             while (isRunning)
             {
 
-                Console.Write("0.Exit\n1. Show All Student\n2.Set Student Grade\n3. Show Student Grade\nChoice: ");
+                Console.Write("0. Exit\n1. Show All Student\n2. Set Student Grade\n3. Show Student Grade\nChoice: ");
                 string choice = Console.ReadLine();
                 Console.WriteLine();
 
@@ -243,7 +243,8 @@ namespace Nayan_Grade_Management
 
                 if (!access)
                 {
-                    Console.Write("\nInvalid\n");
+                    Console.Write("Invalid\n\n");
+                    continue;
                 }
                 else
                 {
@@ -251,6 +252,7 @@ namespace Nayan_Grade_Management
                     {
 
                         case 0:
+                            Console.Write("Exiting...\n");
                             isRunning = false;
                             break;
 
