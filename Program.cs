@@ -177,8 +177,46 @@ namespace Nayan_Grade_Management
         {
             for(int i = 0; i < studentName.Length; i++)
             {
-                Console.WriteLine(studentName[i]);
+                Console.WriteLine("ID "+(i+1) + ". " + studentName[i]);
             }
+        }
+
+        static void setStudentGrade(string[] studentName, double[,] studentGrade, int userStudentIdNumber)
+        {
+            Console.WriteLine(studentName[userStudentIdNumber] + "'s Quiz One");
+            studentGrade[userStudentIdNumber, 0] = quizOne();
+
+            Console.WriteLine(studentName[userStudentIdNumber] + "'s Attendance");
+            studentGrade[userStudentIdNumber, 1] = attendance();
+
+            Console.WriteLine(studentName[userStudentIdNumber] + "'s Midterms");
+            studentGrade[userStudentIdNumber, 2] = midterms();
+
+            Console.WriteLine(studentName[userStudentIdNumber] + "'s Finals");
+            studentGrade[userStudentIdNumber, 3] = finals();
+
+            Console.WriteLine(studentName[userStudentIdNumber] + "'s Project");
+            studentGrade[userStudentIdNumber, 4] = project();
+
+            studentGrade[userStudentIdNumber, 5] = totalScore(
+                studentGrade[userStudentIdNumber, 0],
+                studentGrade[userStudentIdNumber, 1],
+                studentGrade[userStudentIdNumber, 2],
+                studentGrade[userStudentIdNumber, 3],
+                studentGrade[userStudentIdNumber, 4]
+            );
+        }
+
+        static void showStudentGrade(string[] studentName, double[,] studentGrade, int userStudentIdNumber2)
+        {
+            Console.WriteLine("Student Name: " + studentName[userStudentIdNumber2]);
+            Console.WriteLine("Quiz One: " + studentGrade[userStudentIdNumber2, 0] + "%");
+            Console.WriteLine("Attendance: " + studentGrade[userStudentIdNumber2, 1] + "%");
+            Console.WriteLine("Midterms: " + studentGrade[userStudentIdNumber2, 2] + "%");
+            Console.WriteLine("Finals: " + studentGrade[userStudentIdNumber2, 3] + "%");
+            Console.WriteLine("Project: " + studentGrade[userStudentIdNumber2, 4] + "%");
+            Console.WriteLine("Total Score: " + studentGrade[userStudentIdNumber2, 5] + "%");
+            Console.WriteLine();
         }
 
         static void Main(string[] args)
@@ -199,6 +237,7 @@ namespace Nayan_Grade_Management
 
                 Console.Write("0.Exit\n1. Show All Student\n2.Set Student Grade\n3. Show Student Grade\nChoice: ");
                 string choice = Console.ReadLine();
+                Console.WriteLine();
 
                 bool access = int.TryParse(choice, out int userChoice) && userChoice >= 0 && userChoice <= 3;
 
@@ -217,6 +256,7 @@ namespace Nayan_Grade_Management
 
                         case 1:
                             showAllStudentNames(studentName);
+                            Console.WriteLine();
                             break;
 
                         case 2:
@@ -231,20 +271,7 @@ namespace Nayan_Grade_Management
                             }
                             else
                             {
-                                Console.WriteLine(studentName[userStudentIdNumber] + "'s Quiz One");
-                                studentGrade[userStudentIdNumber, 0] = quizOne();
-
-                                Console.WriteLine(studentName[userStudentIdNumber] + "'s Attendance");
-                                studentGrade[userStudentIdNumber, 1] = attendance();
-
-                                Console.WriteLine(studentName[userStudentIdNumber] + "'s Midterms");
-                                studentGrade[userStudentIdNumber, 2] = midterms();
-
-                                Console.WriteLine(studentName[userStudentIdNumber] + "'s Finals");
-                                studentGrade[userStudentIdNumber, 3] = finals();
-
-                                Console.WriteLine(studentName[userStudentIdNumber] + "'s Project");
-                                studentGrade[userStudentIdNumber, 4] = project();
+                            setStudentGrade(studentName, studentGrade, userStudentIdNumber);
                             }
 
                                 break;
@@ -263,14 +290,7 @@ namespace Nayan_Grade_Management
                             else
                             {
 
-                                Console.WriteLine("Student Name: " + studentName[userStudentIdNumber2]);
-                                Console.WriteLine("Quiz One: " + studentGrade[userStudentIdNumber2, 0] + "%");
-                                Console.WriteLine("Attendance: " + studentGrade[userStudentIdNumber2, 1] + "%");
-                                Console.WriteLine("Midterms: " + studentGrade[userStudentIdNumber2, 2] + "%");
-                                Console.WriteLine("Finals: " + studentGrade[userStudentIdNumber2, 3] + "%");
-                                Console.WriteLine("Project: " + studentGrade[userStudentIdNumber2, 4] + "%");
-                                Console.WriteLine("Total Score: " + studentGrade[userStudentIdNumber2, 5] + "%");
-                                Console.WriteLine();
+                                showStudentGrade(studentName, studentGrade, userStudentIdNumber2);
 
                             }
 
