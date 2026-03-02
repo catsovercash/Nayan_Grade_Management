@@ -228,6 +228,9 @@ namespace Nayan_Grade_Management
             {
                 "John Carlo Nayan",
                 "Lebron James",
+                "Paul George",
+                "Boss Atan",
+                "Beabadobee"
             };
 
             double[,] studentGrade = new double[studentName.Length, 6];
@@ -265,7 +268,7 @@ namespace Nayan_Grade_Management
                             Console.Write("Student ID Number: ");
                             String studentIdNumber = Console.ReadLine();
 
-                            bool accessStudentId = int.TryParse(studentIdNumber, out int userStudentIdNumber) && userStudentIdNumber >= 0 && userStudentIdNumber <= 1;
+                            bool accessStudentId = int.TryParse(studentIdNumber, out int userStudentIdNumber) && userStudentIdNumber >= 0 && userStudentIdNumber <= studentName.Length;
 
                             if (!accessStudentId)
                             {
@@ -283,7 +286,7 @@ namespace Nayan_Grade_Management
                             Console.Write("Student ID Number: ");
                             String studentIdNumber2 = Console.ReadLine();
 
-                            bool accessStudentId2 = int.TryParse(studentIdNumber2, out int userStudentIdNumber2) && userStudentIdNumber2 >= 0 && userStudentIdNumber2 <= 1;
+                            bool accessStudentId2 = int.TryParse(studentIdNumber2, out int userStudentIdNumber2) && userStudentIdNumber2 >= 0 && userStudentIdNumber2 <= studentName.Length;
 
                             if (!accessStudentId2)
                             {
