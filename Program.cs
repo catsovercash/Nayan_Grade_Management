@@ -6,7 +6,7 @@ namespace Nayan_Grade_Management
     {
         static double quizOne()
         {
-            string input;
+            string? input;
             bool access;
             double percentage, score;
 
@@ -35,7 +35,7 @@ namespace Nayan_Grade_Management
 
         static double attendance()
         {
-            string input;
+            string? input;
             bool access;
             double percentage, score;
 
@@ -64,7 +64,7 @@ namespace Nayan_Grade_Management
 
         static double midterms()
         {
-            string input;
+            string? input;
             bool access;
             double percentage, score;
 
@@ -93,7 +93,7 @@ namespace Nayan_Grade_Management
 
         static double finals()
         {
-            string input;
+            string? input;
             bool access;
             double percentage, score;
 
@@ -122,7 +122,7 @@ namespace Nayan_Grade_Management
 
         static double project()
         {
-            string input;
+            string? input;
             bool access;
             double percentage, score;
 
@@ -154,24 +154,6 @@ namespace Nayan_Grade_Management
             double totalScore = (quizOne * 0.20) + (attendance * 0.10) + (midterms * 0.25) + (finals * 0.25) + (project * 0.20);
             return totalScore;
         }
-
-        //static void showStudentsGrade(double[,] studentGrade, string[] studentName)
-        //{
-
-        //    //Console.WriteLine("Student Name          |Quiz One       |Attendance     |Midterms       |Finals         |Project        |Total          ");
-
-        //    for (int i = 0; i < studentName.Length; i++)
-        //    {
-        //        Console.WriteLine("Student Name: " + studentName[i]);
-        //        Console.WriteLine("Quiz One: " + studentGrade[i, 0] + "%");
-        //        Console.WriteLine("Attendance: " + studentGrade[i, 1] + "%");
-        //        Console.WriteLine("Midterms: " + studentGrade[i, 2] + "%");
-        //        Console.WriteLine("Finals: " + studentGrade[i, 3] + "%");
-        //        Console.WriteLine("Project: " + studentGrade[i, 4] + "%");
-        //        Console.WriteLine("Total Score: " + studentGrade[i, 5] + "%");
-        //        Console.WriteLine();
-        //    }
-        //}
 
         static void showAllStudentNames(string[] studentName)
         {
@@ -239,7 +221,7 @@ namespace Nayan_Grade_Management
             {
 
                 Console.Write("0. Exit\n1. Show All Student\n2. Set Student Grade\n3. Show Student Grade\nChoice: ");
-                string choice = Console.ReadLine();
+                string? choice = Console.ReadLine();
                 Console.WriteLine();
 
                 bool access = int.TryParse(choice, out int userChoice) && userChoice >= 0 && userChoice <= 3;
@@ -266,7 +248,7 @@ namespace Nayan_Grade_Management
 
                         case 2:
                             Console.Write("Student ID Number: ");
-                            String studentIdNumber = Console.ReadLine();
+                            String? studentIdNumber = Console.ReadLine();
 
                             bool accessStudentId = int.TryParse(studentIdNumber, out int userStudentIdNumber) && userStudentIdNumber >= 0 && userStudentIdNumber <= studentName.Length;
 
@@ -284,7 +266,7 @@ namespace Nayan_Grade_Management
                         case 3:
 
                             Console.Write("Student ID Number: ");
-                            String studentIdNumber2 = Console.ReadLine();
+                            String? studentIdNumber2 = Console.ReadLine();
 
                             bool accessStudentId2 = int.TryParse(studentIdNumber2, out int userStudentIdNumber2) && userStudentIdNumber2 >= 0 && userStudentIdNumber2 <= studentName.Length;
 
