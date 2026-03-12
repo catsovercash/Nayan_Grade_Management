@@ -1,292 +1,169 @@
 using System;
+using Nayan_Grade_Management.GradeManagementAppService;
+using Nayan_Grade_Management.GradeManagementDataService;
+using Nayan_Grade_Management.GradeManagementModels;
 
 namespace Nayan_Grade_Management
 {
     internal class Program
     {
-        static double quizOne()
-        {
-            string? input;
-            bool access;
-            double percentage, score;
-
-            while (true)
-            {
-                Console.Write("Quiz 1 Score (?/20): ");
-                input = Console.ReadLine();
-
-                access = double.TryParse(input, out score) && score >= 0 && score <= 20;
-
-                if (!access)
-                {
-                    Console.Write("\n====================\nQuiz 1 Score must be 0 - 20\n====================\n\n");
-                    continue;
-                }
-                else
-                {
-                    break;
-                }
-
-            }
-
-            percentage = (score / 20) * 100;
-            return percentage;
-        }
-
-        static double attendance()
-        {
-            string? input;
-            bool access;
-            double percentage, score;
-
-            while (true)
-            {
-                Console.Write("Attendance Score (?/24): ");
-                input = Console.ReadLine();
-
-                access = double.TryParse(input, out score) && score >= 0 && score <= 24;
-
-                if (!access)
-                {
-                    Console.Write("\n====================\nAttendance Score must be 0 - 24\n====================\n\n");
-                    continue;
-                }
-                else
-                {
-                    break;
-                }
-
-            }
-
-            percentage = (score / 24) * 100;
-            return percentage;
-        }
-
-        static double midterms()
-        {
-            string? input;
-            bool access;
-            double percentage, score;
-
-            while (true)
-            {
-                Console.Write("Midterms Score (?/100): ");
-                input = Console.ReadLine();
-
-                access = double.TryParse(input, out score) && score >= 0 && score <= 100;
-
-                if (!access)
-                {
-                    Console.Write("\n====================\nMidterms Score must be 0 - 100\n====================\n\n");
-                    continue;
-                }
-                else
-                {
-                    break;
-                }
-
-            }
-
-            percentage = (score / 100) * 100;
-            return percentage;
-        }
-
-        static double finals()
-        {
-            string? input;
-            bool access;
-            double percentage, score;
-
-            while (true)
-            {
-                Console.Write("Finals  Score (?/100): ");
-                input = Console.ReadLine();
-
-                access = double.TryParse(input, out score) && score >= 0 && score <= 100;
-
-                if (!access)
-                {
-                    Console.Write("\n====================\nFinals Score must be 0 - 100\n====================\n\n");
-                    continue;
-                }
-                else
-                {
-                    break;
-                }
-
-            }
-
-            percentage = (score / 100) * 100;
-            return percentage;
-        }
-
-        static double project()
-        {
-            string? input;
-            bool access;
-            double percentage, score;
-
-            while (true)
-            {
-                Console.Write("Project Score (?/100): ");
-                input = Console.ReadLine();
-
-                access = double.TryParse(input, out score) && score >= 0 && score <= 100;
-
-                if (!access)
-                {
-                    Console.Write("\n====================\nProject Score must be 0 - 100\n====================\n\n");
-                    continue;
-                }
-                else
-                {
-                    break;
-                }
-
-            }
-
-            percentage = (score / 100) * 100;
-            return percentage;
-        }
-
-        static double totalScore(double quizOne, double attendance, double midterms, double finals, double project)
-        {
-            double totalScore = (quizOne * 0.20) + (attendance * 0.10) + (midterms * 0.25) + (finals * 0.25) + (project * 0.20);
-            return totalScore;
-        }
-
-        static void showAllStudentNames(string[] studentName)
-        {
-            for (int i = 0; i < studentName.Length; i++)
-            {
-                Console.WriteLine("ID " + i + ". " + studentName[i]);
-            }
-        }
-
-        static void setStudentGrade(string[] studentName, double[,] studentGrade, int userStudentIdNumber)
-        {
-            Console.WriteLine(studentName[userStudentIdNumber] + "'s Quiz One");
-            studentGrade[userStudentIdNumber, 0] = quizOne();
-
-            Console.WriteLine(studentName[userStudentIdNumber] + "'s Attendance");
-            studentGrade[userStudentIdNumber, 1] = attendance();
-
-            Console.WriteLine(studentName[userStudentIdNumber] + "'s Midterms");
-            studentGrade[userStudentIdNumber, 2] = midterms();
-
-            Console.WriteLine(studentName[userStudentIdNumber] + "'s Finals");
-            studentGrade[userStudentIdNumber, 3] = finals();
-
-            Console.WriteLine(studentName[userStudentIdNumber] + "'s Project");
-            studentGrade[userStudentIdNumber, 4] = project();
-
-            studentGrade[userStudentIdNumber, 5] = totalScore(
-                studentGrade[userStudentIdNumber, 0],
-                studentGrade[userStudentIdNumber, 1],
-                studentGrade[userStudentIdNumber, 2],
-                studentGrade[userStudentIdNumber, 3],
-                studentGrade[userStudentIdNumber, 4]
-            );
-        }
-
-        static void showStudentGrade(string[] studentName, double[,] studentGrade, int userStudentIdNumber2)
-        {
-            Console.WriteLine("Student Name: " + studentName[userStudentIdNumber2]);
-            Console.WriteLine("Quiz One: " + studentGrade[userStudentIdNumber2, 0] + "%");
-            Console.WriteLine("Attendance: " + studentGrade[userStudentIdNumber2, 1] + "%");
-            Console.WriteLine("Midterms: " + studentGrade[userStudentIdNumber2, 2] + "%");
-            Console.WriteLine("Finals: " + studentGrade[userStudentIdNumber2, 3] + "%");
-            Console.WriteLine("Project: " + studentGrade[userStudentIdNumber2, 4] + "%");
-            Console.WriteLine("Total Score: " + studentGrade[userStudentIdNumber2, 5] + "%");
-            Console.WriteLine();
-        }
-
         static void Main(string[] args)
         {
-
+            GradeAppService gradeAppService = new GradeAppService();
+            GradeDataService gradeDataService = new GradeDataService();
             bool isRunning = true;
-
-            string[] studentName =
-            {
-                "John Carlo Nayan",
-                "Lebron James",
-                "Paul George",
-                "Boss Atan",
-                "Beabadobee"
-            };
-
-            double[,] studentGrade = new double[studentName.Length, 6];
 
             while (isRunning)
             {
-
                 Console.Write("0. Exit\n1. Show All Student\n2. Set Student Grade\n3. Show Student Grade\nChoice: ");
-                string? choice = Console.ReadLine();
+                string? choiceInput = Console.ReadLine();
                 Console.WriteLine();
 
-                bool access = int.TryParse(choice, out int userChoice) && userChoice >= 0 && userChoice <= 3;
-
-                if (!access)
+                if (!int.TryParse(choiceInput, out int userChoice))
                 {
                     Console.Write("Invalid\n\n");
                     continue;
                 }
-                else
+
+                if (!gradeAppService.IsValidMenuChoice(userChoice))
                 {
-                    switch (userChoice)
-                    {
+                    Console.Write("Invalid\n\n");
+                    continue;
+                }
 
-                        case 0:
-                            Console.Write("Exiting...\n");
-                            isRunning = false;
-                            break;
+                switch (userChoice)
+                {
+                    case 0:
+                        Console.Write("Exiting...\n");
+                        isRunning = false;
+                        break;
 
-                        case 1:
-                            showAllStudentNames(studentName);
-                            Console.WriteLine();
-                            break;
+                    case 1:
+                        ShowAllStudentNames(gradeDataService);
+                        Console.WriteLine();
+                        break;
 
-                        case 2:
-                            Console.Write("Student ID Number: ");
-                            String? studentIdNumber = Console.ReadLine();
+                    case 2:
+                        SetStudentGrade(gradeAppService, gradeDataService);
+                        break;
 
-                            bool accessStudentId = int.TryParse(studentIdNumber, out int userStudentIdNumber) && userStudentIdNumber >= 0 && userStudentIdNumber <= studentName.Length;
-
-                            if (!accessStudentId)
-                            {
-                                Console.WriteLine("Invalid ID Number");
-                            }
-                            else
-                            {
-                                setStudentGrade(studentName, studentGrade, userStudentIdNumber);
-                            }
-
-                            break;
-
-                        case 3:
-
-                            Console.Write("Student ID Number: ");
-                            String? studentIdNumber2 = Console.ReadLine();
-
-                            bool accessStudentId2 = int.TryParse(studentIdNumber2, out int userStudentIdNumber2) && userStudentIdNumber2 >= 0 && userStudentIdNumber2 <= studentName.Length;
-
-                            if (!accessStudentId2)
-                            {
-                                Console.WriteLine("Invalid ID Number");
-                            }
-                            else
-                            {
-
-                                showStudentGrade(studentName, studentGrade, userStudentIdNumber2);
-
-                            }
-
-                            break;
-                    }
+                    case 3:
+                        ShowStudentGrade(gradeAppService, gradeDataService);
+                        break;
                 }
             }
-
         }
 
+        static void ShowAllStudentNames(GradeDataService gradeDataService)
+        {
+            List<Student> students = gradeDataService.GetAllStudents();
+
+            for (int i = 0; i < students.Count; i++)
+            {
+                Student student = students[i];
+                Console.WriteLine("ID " + student.Id + ". " + student.Name);
+            }
+        }
+
+        static void SetStudentGrade(GradeAppService gradeAppService, GradeDataService gradeDataService)
+        {
+            Console.Write("Student ID Number: ");
+            string? studentIdInput = Console.ReadLine();
+
+            if (!int.TryParse(studentIdInput, out int studentId))
+            {
+                Console.WriteLine("Invalid ID Number");
+                return;
+            }
+
+            if (!gradeAppService.IsValidStudentId(studentId, gradeDataService.GetAllStudents().Count))
+            {
+                Console.WriteLine("Invalid ID Number");
+                return;
+            }
+
+            if (!gradeDataService.StudentExists(studentId))
+            {
+                Console.WriteLine("Invalid ID Number");
+                return;
+            }
+
+            Student student = gradeDataService.GetStudentById(studentId);
+
+            Grades grades = new Grades();
+
+            grades.QuizOne = PromptScore(gradeAppService, student.Name + "'s Quiz One", "Quiz 1 Score (?/20): ", 20, "Quiz 1 Score must be 0 - 20");
+            grades.Attendance = PromptScore(gradeAppService, student.Name + "'s Attendance", "Attendance Score (?/24): ", 24, "Attendance Score must be 0 - 24");
+            grades.Midterms = PromptScore(gradeAppService, student.Name + "'s Midterms", "Midterms Score (?/100): ", 100, "Midterms Score must be 0 - 100");
+            grades.Finals = PromptScore(gradeAppService, student.Name + "'s Finals", "Finals  Score (?/100): ", 100, "Finals Score must be 0 - 100");
+            grades.Project = PromptScore(gradeAppService, student.Name + "'s Project", "Project Score (?/100): ", 100, "Project Score must be 0 - 100");
+
+            gradeAppService.SaveStudentGrades(student, grades);
+        }
+
+        static void ShowStudentGrade(GradeAppService gradeAppService, GradeDataService gradeDataService)
+        {
+            Console.Write("Student ID Number: ");
+            string? studentIdInput = Console.ReadLine();
+
+            if (!int.TryParse(studentIdInput, out int studentId))
+            {
+                Console.WriteLine("Invalid ID Number");
+                return;
+            }
+
+            if (!gradeAppService.IsValidStudentId(studentId, gradeDataService.GetAllStudents().Count))
+            {
+                Console.WriteLine("Invalid ID Number");
+                return;
+            }
+
+            if (!gradeDataService.StudentExists(studentId))
+            {
+                Console.WriteLine("Invalid ID Number");
+                return;
+            }
+
+            Student student = gradeDataService.GetStudentById(studentId);
+
+            Console.WriteLine("Student Name: " + student.Name);
+            Console.WriteLine("Quiz One: " + student.Grades.QuizOne + "%");
+            Console.WriteLine("Attendance: " + student.Grades.Attendance + "%");
+            Console.WriteLine("Midterms: " + student.Grades.Midterms + "%");
+            Console.WriteLine("Finals: " + student.Grades.Finals + "%");
+            Console.WriteLine("Project: " + student.Grades.Project + "%");
+            Console.WriteLine("Total Score: " + student.Grades.TotalScore + "%");
+            Console.WriteLine();
+        }
+
+        static double PromptScore(
+            GradeAppService gradeAppService,
+            string title,
+            string prompt,
+            double maxScore,
+            string invalidMessage)
+        {
+            while (true)
+            {
+                Console.WriteLine(title);
+                Console.Write(prompt);
+                string? scoreInput = Console.ReadLine();
+
+                if (!double.TryParse(scoreInput, out double score))
+                {
+                    Console.Write("\n====================\n" + invalidMessage + "\n====================\n\n");
+                    continue;
+                }
+
+                if (!gradeAppService.IsValidScore(score, maxScore))
+                {
+                    Console.Write("\n====================\n" + invalidMessage + "\n====================\n\n");
+                    continue;
+                }
+
+                double percentage = gradeAppService.ConvertScoreToPercentage(score, maxScore);
+                return percentage;
+            }
+        }
     }
 }
