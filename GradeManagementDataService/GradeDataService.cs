@@ -5,7 +5,7 @@ namespace Nayan_Grade_Management.GradeManagementDataService
 {
     public class GradeDataService
     {
-        private  List<Student> students;
+        public  List<Student> students;
 
         public GradeDataService()
         {
