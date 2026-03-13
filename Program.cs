@@ -1,13 +1,12 @@
-using System;
 using Nayan_Grade_Management.GradeManagementAppService;
 using Nayan_Grade_Management.GradeManagementDataService;
 using Nayan_Grade_Management.GradeManagementModels;
 
 namespace Nayan_Grade_Management
 {
-    internal class Program
+    public class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             GradeAppService gradeAppService = new GradeManagementAppService.GradeAppService();
             GradeDataService gradeDataService = new GradeManagementDataService.GradeDataService();
