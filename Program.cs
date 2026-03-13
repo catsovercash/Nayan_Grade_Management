@@ -9,8 +9,8 @@ namespace Nayan_Grade_Management
     {
         static void Main(string[] args)
         {
-            GradeAppService gradeAppService = new GradeAppService();
-            GradeDataService gradeDataService = new GradeDataService();
+            GradeAppService gradeAppService = new GradeManagementAppService.GradeAppService();
+            GradeDataService gradeDataService = new GradeManagementDataService.GradeDataService();
             bool isRunning = true;
 
             while (isRunning)
@@ -92,7 +92,7 @@ namespace Nayan_Grade_Management
 
             Grades grades = new Grades();
 
-            grades.QuizOne = PromptScore(gradeAppService, student.Name + "'s Quiz One", "Quiz 1 Score (?/20): ", 20, "Quiz 1 Score must be 0 - 20");
+            grades.QuizOne = PromptScore(gradeAppService,student.Name + "'s Quiz One", "Quiz 1 Score (?/20): ", 20, "Quiz 1 Score must be 0 - 20");
             grades.Attendance = PromptScore(gradeAppService, student.Name + "'s Attendance", "Attendance Score (?/24): ", 24, "Attendance Score must be 0 - 24");
             grades.Midterms = PromptScore(gradeAppService, student.Name + "'s Midterms", "Midterms Score (?/100): ", 100, "Midterms Score must be 0 - 100");
             grades.Finals = PromptScore(gradeAppService, student.Name + "'s Finals", "Finals  Score (?/100): ", 100, "Finals Score must be 0 - 100");

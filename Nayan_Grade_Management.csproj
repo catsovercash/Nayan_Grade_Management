@@ -7,4 +7,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GradeAppService\GradeManagementAppService.csproj" />
+    <ProjectReference Include="..\GradeManagementDataService\GradeManagementDataService.csproj" />
+    <ProjectReference Include="..\GradeManagementModels\GradeManagementModels.csproj" />
+  </ItemGroup>
+
 </Project>

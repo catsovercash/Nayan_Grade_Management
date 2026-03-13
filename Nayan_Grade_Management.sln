@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.11.35327.3
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11605.240 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nayan_Grade_Management", "Nayan_Grade_Management.csproj", "{7905E8EC-5EC8-4E7A-B4D8-89BC00DF462F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeManagementAppService", "..\GradeAppService\GradeManagementAppService.csproj", "{6777DBC6-9350-42ED-AD4B-CD34CF172837}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeManagementDataService", "..\GradeManagementDataService\GradeManagementDataService.csproj", "{EDDDA1CB-486A-4C87-B2CB-2B76EFB11AE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeManagementModels", "..\GradeManagementModels\GradeManagementModels.csproj", "{F4391E02-4CC4-4288-A5C5-F4F5A0403F0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{7905E8EC-5EC8-4E7A-B4D8-89BC00DF462F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7905E8EC-5EC8-4E7A-B4D8-89BC00DF462F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7905E8EC-5EC8-4E7A-B4D8-89BC00DF462F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6777DBC6-9350-42ED-AD4B-CD34CF172837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6777DBC6-9350-42ED-AD4B-CD34CF172837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6777DBC6-9350-42ED-AD4B-CD34CF172837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6777DBC6-9350-42ED-AD4B-CD34CF172837}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDDDA1CB-486A-4C87-B2CB-2B76EFB11AE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDDDA1CB-486A-4C87-B2CB-2B76EFB11AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDDDA1CB-486A-4C87-B2CB-2B76EFB11AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDDDA1CB-486A-4C87-B2CB-2B76EFB11AE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4391E02-4CC4-4288-A5C5-F4F5A0403F0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4391E02-4CC4-4288-A5C5-F4F5A0403F0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4391E02-4CC4-4288-A5C5-F4F5A0403F0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4391E02-4CC4-4288-A5C5-F4F5A0403F0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
