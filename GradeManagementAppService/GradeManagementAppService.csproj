@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GradeManagementDataService\GradeManagementDataService.csproj" />
     <ProjectReference Include="..\GradeManagementModels\GradeManagementModels.csproj" />
   </ItemGroup>
 

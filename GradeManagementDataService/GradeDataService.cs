@@ -1,37 +1,35 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Nayan_Grade_Management.GradeManagementModels;
 
 namespace Nayan_Grade_Management.GradeManagementDataService
 {
     public class GradeDataService
     {
-        public  List<Student> students;
+        private readonly IGradeDataService _gradeData;
 
-        public GradeDataService()
+        public GradeDataService(IGradeDataService gradeData)
         {
-            students = new List<Student>
-            {
-                new Student { Id = 0, Name = "John Carlo Nayan"},
-                new Student { Id = 1, Name = "Lebron James" },
-                new Student { Id = 2, Name = "Paul George" },
-                new Student { Id = 3, Name = "Boss Atan" },
-                new Student { Id = 4, Name = "Beabadobee" }
-            };
+            _gradeData = gradeData;
         }
 
         public List<Student> GetAllStudents()
         {
-            return students;
+            return _gradeData.GetAllStudents();
         }
 
         public bool StudentExists(int id)
         {
-            return id >= 0 && id < students.Count;
+            return _gradeData.StudentExists(id);
         }
 
         public Student GetStudentById(int id)
         {
-            return students[id];
+            return _gradeData.GetStudentById(id);
+        }
+
+        public void SaveStudent(Student updatedStudent)
+        {
+            _gradeData.SaveStudent(updatedStudent);
         }
     }
 }

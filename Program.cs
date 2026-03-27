@@ -1,5 +1,4 @@
 using Nayan_Grade_Management.GradeManagementAppService;
-using Nayan_Grade_Management.GradeManagementDataService;
 using Nayan_Grade_Management.GradeManagementModels;
 
 namespace Nayan_Grade_Management
@@ -9,7 +8,6 @@ namespace Nayan_Grade_Management
         static void Main()
         {
             GradeAppService gradeAppService = new GradeManagementAppService.GradeAppService();
-            GradeDataService gradeDataService = new GradeManagementDataService.GradeDataService();
             bool isRunning = true;
 
             while (isRunning)
@@ -38,24 +36,24 @@ namespace Nayan_Grade_Management
                         break;
 
                     case 1:
-                        ShowAllStudentNames(gradeDataService);
+                        ShowAllStudentNames(gradeAppService);
                         Console.WriteLine();
                         break;
 
                     case 2:
-                        SetStudentGrade(gradeAppService, gradeDataService);
+                        SetStudentGrade(gradeAppService);
                         break;
 
                     case 3:
-                        ShowStudentGrade(gradeAppService, gradeDataService);
+                        ShowStudentGrade(gradeAppService);
                         break;
                 }
             }
         }
 
-        static void ShowAllStudentNames(GradeDataService gradeDataService)
+        static void ShowAllStudentNames(GradeAppService gradeAppService)
         {
-            List<Student> students = gradeDataService.GetAllStudents();
+            List<Student> students = gradeAppService.GetAllStudents();
 
             for (int i = 0; i < students.Count; i++)
             {
@@ -64,7 +62,7 @@ namespace Nayan_Grade_Management
             }
         }
 
-        static void SetStudentGrade(GradeAppService gradeAppService, GradeDataService gradeDataService)
+        static void SetStudentGrade(GradeAppService gradeAppService)
         {
             Console.Write("Student ID Number: ");
             string? studentIdInput = Console.ReadLine();
@@ -75,19 +73,19 @@ namespace Nayan_Grade_Management
                 return;
             }
 
-            if (!gradeAppService.IsValidStudentId(studentId, gradeDataService.GetAllStudents().Count))
+            if (!gradeAppService.IsValidStudentId(studentId, gradeAppService.GetAllStudents().Count))
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
             }
 
-            if (!gradeDataService.StudentExists(studentId))
+            if (!gradeAppService.StudentExists(studentId))
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
             }
 
-            Student student = gradeDataService.GetStudentById(studentId);
+            Student student = gradeAppService.GetStudentById(studentId);
 
             Grades grades = new Grades();
 
@@ -98,9 +96,10 @@ namespace Nayan_Grade_Management
             grades.Project = PromptScore(gradeAppService, student.Name + "'s Project", "Project Score (?/100): ", 100, "Project Score must be 0 - 100");
 
             gradeAppService.SaveStudentGrades(student, grades);
+
         }
 
-        static void ShowStudentGrade(GradeAppService gradeAppService, GradeDataService gradeDataService)
+        static void ShowStudentGrade(GradeAppService gradeAppService)
         {
             Console.Write("Student ID Number: ");
             string? studentIdInput = Console.ReadLine();
@@ -111,19 +110,20 @@ namespace Nayan_Grade_Management
                 return;
             }
 
-            if (!gradeAppService.IsValidStudentId(studentId, gradeDataService.GetAllStudents().Count))
+            if (!gradeAppService.IsValidStudentId(studentId, gradeAppService.GetAllStudents().Count))
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
             }
 
-            if (!gradeDataService.StudentExists(studentId))
+            if (!gradeAppService.StudentExists(studentId))
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
             }
 
-            Student student = gradeDataService.GetStudentById(studentId);
+            Student student = gradeAppService.GetStudentById(studentId);
+
 
             Console.WriteLine("Student Name: " + student.Name);
             Console.WriteLine("Quiz One: " + student.Grades.QuizOne + "%");

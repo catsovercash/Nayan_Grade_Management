@@ -1,9 +1,35 @@
-﻿using Nayan_Grade_Management.GradeManagementModels;
+using System.Collections.Generic;
+using Nayan_Grade_Management.GradeManagementDataService;
+using Nayan_Grade_Management.GradeManagementModels;
 
 namespace Nayan_Grade_Management.GradeManagementAppService
 {
     public class GradeAppService
     {
+        GradeDataService gradeDataService = new GradeDataService(new GradeDBData());
+        //GradeDataService gradeDataService = new GradeDataService(new GradeInMemoryData());
+        //GradeDataService gradeDataService = new GradeDataService(new GradeJsonData());
+
+        public List<Student> GetAllStudents()
+        {
+            return gradeDataService.GetAllStudents();
+        }
+
+        public bool StudentExists(int id)
+        {
+            return gradeDataService.StudentExists(id);
+        }
+
+        public Student GetStudentById(int id)
+        {
+            return gradeDataService.GetStudentById(id);
+        }
+
+        public void SaveStudent(Student updatedStudent)
+        {
+            gradeDataService.SaveStudent(updatedStudent);
+        }
+
         public bool IsValidMenuChoice(int choice)
         {
             return choice >= 0 && choice <= 3;
@@ -39,6 +65,7 @@ namespace Nayan_Grade_Management.GradeManagementAppService
         {
             grades.TotalScore = CalculateTotalScore(grades);
             student.Grades = grades;
+            SaveStudent(student);
         }
     }
 }
