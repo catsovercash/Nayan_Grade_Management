@@ -41,7 +41,6 @@ namespace Nayan_Grade_Management.GradeManagementDataService
 
                 student.Grades = new Grades();
 
-                // If a student has no saved grades yet, the default values stay 0.
                 if (reader["QuizOne"] != DBNull.Value)
                 {
                     student.Grades.QuizOne = Convert.ToDouble(reader["QuizOne"]);
@@ -128,7 +127,6 @@ namespace Nayan_Grade_Management.GradeManagementDataService
                 student.Id = Convert.ToInt32(reader["Id"]);
                 student.Name = reader["Name"].ToString() ?? string.Empty;
 
-                // If a student has no saved grades yet, the default values stay 0.
                 if (reader["QuizOne"] != DBNull.Value)
                 {
                     student.Grades.QuizOne = Convert.ToDouble(reader["QuizOne"]);
