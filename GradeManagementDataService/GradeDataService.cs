@@ -31,5 +31,15 @@ namespace Nayan_Grade_Management.GradeManagementDataService
         {
             _gradeData.SaveStudent(updatedStudent);
         }
+
+        public void UpdateStudent(Student updatedStudent)
+        {
+            _gradeData.UpdateStudent(updatedStudent);
+        }
+
+        public void DeleteStudentGrades(int id)
+        {
+            _gradeData.DeleteStudentGrades(id);
+        }
     }
 }

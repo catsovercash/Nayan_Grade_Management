@@ -26,12 +26,19 @@ namespace Nayan_Grade_Management.GradeManagementDataService
 
         public bool StudentExists(int id)
         {
-            return id >= 0 && id < students.Count;
+            return students.Exists(student => student.Id == id);
         }
 
         public Student GetStudentById(int id)
         {
-            return students[id];
+            Student? student = students.Find(existingStudent => existingStudent.Id == id);
+
+            if (student is null)
+            {
+                throw new KeyNotFoundException($"Student with ID {id} was not found.");
+            }
+
+            return student;
         }
 
         public void SaveStudent(Student updatedStudent)
@@ -41,6 +48,21 @@ namespace Nayan_Grade_Management.GradeManagementDataService
             if (studentIndex >= 0)
             {
                 students[studentIndex] = updatedStudent;
+            }
+        }
+
+        public void UpdateStudent(Student updatedStudent)
+        {
+            SaveStudent(updatedStudent);
+        }
+
+        public void DeleteStudentGrades(int id)
+        {
+            Student? student = students.Find(existingStudent => existingStudent.Id == id);
+
+            if (student is not null)
+            {
+                student.Grades = new Grades();
             }
         }
     }

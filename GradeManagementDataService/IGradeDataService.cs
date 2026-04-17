@@ -9,5 +9,7 @@ namespace Nayan_Grade_Management.GradeManagementDataService
         bool StudentExists(int id);
         Student GetStudentById(int id);
         void SaveStudent(Student updatedStudent);
+        void UpdateStudent(Student updatedStudent);
+        void DeleteStudentGrades(int id);
     }
 }

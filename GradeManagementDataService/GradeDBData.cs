@@ -148,6 +148,37 @@ namespace Nayan_Grade_Management.GradeManagementDataService
             mergeGradesCommand.ExecuteNonQuery();
         }
 
+        public void UpdateStudent(Student updatedStudent)
+        {
+            SaveStudent(updatedStudent);
+        }
+
+        public void DeleteStudentGrades(int id)
+        {
+            using SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+
+            string resetGradesQuery = @"
+                MERGE Grades AS target
+                USING (SELECT @StudentId AS StudentId) AS source
+                ON target.StudentId = source.StudentId
+                WHEN MATCHED THEN
+                    UPDATE SET
+                        QuizOne = 0,
+                        Attendance = 0,
+                        Midterms = 0,
+                        Finals = 0,
+                        Project = 0,
+                        TotalScore = 0
+                WHEN NOT MATCHED THEN
+                    INSERT (StudentId, QuizOne, Attendance, Midterms, Finals, Project, TotalScore)
+                    VALUES (@StudentId, 0, 0, 0, 0, 0, 0);";
+
+            using SqlCommand resetGradesCommand = new SqlCommand(resetGradesQuery, sqlConnection);
+            resetGradesCommand.Parameters.AddWithValue("@StudentId", id);
+            resetGradesCommand.ExecuteNonQuery();
+        }
+
         private void AddSeeds()
         {
             List<Student> existing = GetAllStudents();

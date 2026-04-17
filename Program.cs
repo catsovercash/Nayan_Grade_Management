@@ -12,7 +12,7 @@ namespace Nayan_Grade_Management
 
             while (isRunning)
             {
-                Console.Write("0. Exit\n1. Show All Student\n2. Set Student Grade\n3. Show Student Grade\nChoice: ");
+                Console.Write("0. Exit\n1. Show All Student\n2. Set Student Grade\n3. Show Student Grade\n4. Delete Student Grade\n5. Update Student Grade\nChoice: ");
                 string? choiceInput = Console.ReadLine();
                 Console.WriteLine();
 
@@ -46,6 +46,14 @@ namespace Nayan_Grade_Management
 
                     case 3:
                         ShowStudentGrade(gradeAppService);
+                        break;
+
+                    case 4:
+                        DeleteStudentGrade(gradeAppService);
+                        break;
+
+                    case 5:
+                        UpdateStudentGrade(gradeAppService);
                         break;
                 }
             }
@@ -132,6 +140,96 @@ namespace Nayan_Grade_Management
             Console.WriteLine("Finals: " + student.Grades.Finals + "%");
             Console.WriteLine("Project: " + student.Grades.Project + "%");
             Console.WriteLine("Total Score: " + student.Grades.TotalScore + "%");
+            Console.WriteLine();
+        }
+
+        static void DeleteStudentGrade(GradeAppService gradeAppService)
+        {
+            Console.Write("Student ID Number: ");
+            string? studentIdInput = Console.ReadLine();
+
+            if (!int.TryParse(studentIdInput, out int studentId))
+            {
+                Console.WriteLine("Invalid ID Number");
+                return;
+            }
+
+            if (!gradeAppService.IsValidStudentId(studentId, gradeAppService.GetAllStudents().Count))
+            {
+                Console.WriteLine("Invalid ID Number");
+                return;
+            }
+
+            if (!gradeAppService.StudentExists(studentId))
+            {
+                Console.WriteLine("Invalid ID Number");
+                return;
+            }
+
+            gradeAppService.DeleteStudentGrades(studentId);
+            Console.WriteLine("Student grade deleted successfully");
+            Console.WriteLine();
+        }
+
+        static void UpdateStudentGrade(GradeAppService gradeAppService)
+        {
+            Console.Write("Student ID Number: ");
+            string? studentIdInput = Console.ReadLine();
+
+            if (!int.TryParse(studentIdInput, out int studentId))
+            {
+                Console.WriteLine("Invalid ID Number");
+                return;
+            }
+
+            if (!gradeAppService.IsValidStudentId(studentId, gradeAppService.GetAllStudents().Count))
+            {
+                Console.WriteLine("Invalid ID Number");
+                return;
+            }
+
+            if (!gradeAppService.StudentExists(studentId))
+            {
+                Console.WriteLine("Invalid ID Number");
+                return;
+            }
+
+            Student student = gradeAppService.GetStudentById(studentId);
+
+            Console.WriteLine("Student Name: " + student.Name);
+            Console.WriteLine("1. Quiz One: " + student.Grades.QuizOne + "%");
+            Console.WriteLine("2. Attendance: " + student.Grades.Attendance + "%");
+            Console.WriteLine("3. Midterms: " + student.Grades.Midterms + "%");
+            Console.WriteLine("4. Finals: " + student.Grades.Finals + "%");
+            Console.WriteLine("5. Project: " + student.Grades.Project + "%");
+            Console.Write("Grade Field to Update: ");
+
+            string? gradeFieldInput = Console.ReadLine();
+
+            if (!int.TryParse(gradeFieldInput, out int gradeFieldChoice))
+            {
+                Console.WriteLine("Invalid Grade Field");
+                return;
+            }
+
+            if (!gradeAppService.IsValidGradeFieldChoice(gradeFieldChoice))
+            {
+                Console.WriteLine("Invalid Grade Field");
+                return;
+            }
+
+            double updatedScore = gradeFieldChoice switch
+            {
+                1 => PromptScore(gradeAppService, student.Name + "'s Quiz One", "Quiz 1 Score (?/20): ", 20, "Quiz 1 Score must be 0 - 20"),
+                2 => PromptScore(gradeAppService, student.Name + "'s Attendance", "Attendance Score (?/24): ", 24, "Attendance Score must be 0 - 24"),
+                3 => PromptScore(gradeAppService, student.Name + "'s Midterms", "Midterms Score (?/100): ", 100, "Midterms Score must be 0 - 100"),
+                4 => PromptScore(gradeAppService, student.Name + "'s Finals", "Finals Score (?/100): ", 100, "Finals Score must be 0 - 100"),
+                5 => PromptScore(gradeAppService, student.Name + "'s Project", "Project Score (?/100): ", 100, "Project Score must be 0 - 100"),
+                _ => 0
+            };
+
+            gradeAppService.UpdateStudentGrade(student, gradeFieldChoice, updatedScore);
+            Console.WriteLine("Student grade updated successfully");
             Console.WriteLine();
         }
 

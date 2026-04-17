@@ -1,7 +1,7 @@
 using Nayan_Grade_Management.GradeManagementModels;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
 using System.Text.Json;
 
 namespace Nayan_Grade_Management.GradeManagementDataService
@@ -44,8 +44,7 @@ namespace Nayan_Grade_Management.GradeManagementDataService
 
         private void SaveDataToJsonFile()
         {
-
-            using (var outputStream = File.OpenWrite(_jsonFileName))
+            using (var outputStream = File.Create(_jsonFileName))
             {
                 JsonSerializer.Serialize<List<Student>>
                     (
@@ -83,13 +82,20 @@ namespace Nayan_Grade_Management.GradeManagementDataService
         public bool StudentExists(int id)
         {
             RetrieveDataFromJsonFile();
-            return id >= 0 && id < students.Count;
+            return students.Exists(student => student.Id == id);
         }
 
         public Student GetStudentById(int id)
         {
             RetrieveDataFromJsonFile();
-            return students[id];
+            Student? student = students.Find(existingStudent => existingStudent.Id == id);
+
+            if (student is null)
+            {
+                throw new KeyNotFoundException($"Student with ID {id} was not found.");
+            }
+
+            return student;
         }
 
         public void SaveStudent(Student updatedStudent)
@@ -104,6 +110,24 @@ namespace Nayan_Grade_Management.GradeManagementDataService
             }
 
             SaveDataToJsonFile();
+        }
+
+        public void UpdateStudent(Student updatedStudent)
+        {
+            SaveStudent(updatedStudent);
+        }
+
+        public void DeleteStudentGrades(int id)
+        {
+            RetrieveDataFromJsonFile();
+
+            Student? student = students.Find(existingStudent => existingStudent.Id == id);
+
+            if (student is not null)
+            {
+                student.Grades = new Grades();
+                SaveDataToJsonFile();
+            }
         }
 
 
