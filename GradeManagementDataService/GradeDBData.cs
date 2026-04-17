@@ -1,16 +1,20 @@
 using Microsoft.Data.SqlClient;
-using System.Collections.Generic;
 using Nayan_Grade_Management.GradeManagementModels;
+using System;
+using System.Collections.Generic;
 
 namespace Nayan_Grade_Management.GradeManagementDataService
 {
     public class GradeDBData : IGradeDataService
     {
-        private readonly string connectionString =
+        private string connectionString =
             "Data Source=localhost\\SQLEXPRESS;Initial Catalog=GradeManagement;Integrated Security=True;TrustServerCertificate=True";
+
+        private SqlConnection sqlConnection;
 
         public GradeDBData()
         {
+            sqlConnection = new SqlConnection(connectionString);
             AddSeeds();
         }
 
@@ -18,134 +22,225 @@ namespace Nayan_Grade_Management.GradeManagementDataService
         {
             List<Student> students = new List<Student>();
 
-            using SqlConnection sqlConnection = new SqlConnection(connectionString);
+            string selectStatement =
+                "SELECT s.Id, s.Name, g.QuizOne, g.Attendance, g.Midterms, g.Finals, g.Project, g.TotalScore " +
+                "FROM Students s " +
+                "LEFT JOIN Grades g ON s.Id = g.StudentId " +
+                "ORDER BY s.Id";
+
+            SqlCommand selectCommand = new SqlCommand(selectStatement, sqlConnection);
+
             sqlConnection.Open();
-
-            string query = @"
-                SELECT
-                    s.Id,
-                    s.Name,
-                    g.QuizOne,
-                    g.Attendance,
-                    g.Midterms,
-                    g.Finals,
-                    g.Project,
-                    g.TotalScore
-                FROM Students s
-                LEFT JOIN Grades g ON s.Id = g.StudentId
-                ORDER BY s.Id";
-
-            using SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
-            using SqlDataReader reader = sqlCommand.ExecuteReader();
+            SqlDataReader reader = selectCommand.ExecuteReader();
 
             while (reader.Read())
             {
-                students.Add(MapStudent(reader));
+                Student student = new Student();
+                student.Id = Convert.ToInt32(reader["Id"]);
+                student.Name = reader["Name"].ToString() ?? string.Empty;
+
+                student.Grades = new Grades();
+
+                // If a student has no saved grades yet, the default values stay 0.
+                if (reader["QuizOne"] != DBNull.Value)
+                {
+                    student.Grades.QuizOne = Convert.ToDouble(reader["QuizOne"]);
+                }
+
+                if (reader["Attendance"] != DBNull.Value)
+                {
+                    student.Grades.Attendance = Convert.ToDouble(reader["Attendance"]);
+                }
+
+                if (reader["Midterms"] != DBNull.Value)
+                {
+                    student.Grades.Midterms = Convert.ToDouble(reader["Midterms"]);
+                }
+
+                if (reader["Finals"] != DBNull.Value)
+                {
+                    student.Grades.Finals = Convert.ToDouble(reader["Finals"]);
+                }
+
+                if (reader["Project"] != DBNull.Value)
+                {
+                    student.Grades.Project = Convert.ToDouble(reader["Project"]);
+                }
+
+                if (reader["TotalScore"] != DBNull.Value)
+                {
+                    student.Grades.TotalScore = Convert.ToDouble(reader["TotalScore"]);
+                }
+
+                students.Add(student);
             }
+
+            sqlConnection.Close();
 
             return students;
         }
 
         public bool StudentExists(int id)
         {
-            using SqlConnection sqlConnection = new SqlConnection(connectionString);
+            string selectStatement = "SELECT Id, Name FROM Students WHERE Id = @Id";
+
+            SqlCommand selectCommand = new SqlCommand(selectStatement, sqlConnection);
+            selectCommand.Parameters.AddWithValue("@Id", id);
+
             sqlConnection.Open();
+            SqlDataReader reader = selectCommand.ExecuteReader();
 
-            string query = "SELECT COUNT(1) FROM Students WHERE Id = @Id";
+            bool studentExists = false;
 
-            using SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
-            sqlCommand.Parameters.AddWithValue("@Id", id);
+            while (reader.Read())
+            {
+                studentExists = true;
+            }
 
-            int count = (int)sqlCommand.ExecuteScalar()!;
-            return count > 0;
+            sqlConnection.Close();
+
+            return studentExists;
         }
 
         public Student GetStudentById(int id)
         {
-            using SqlConnection sqlConnection = new SqlConnection(connectionString);
+            string selectStatement =
+                "SELECT s.Id, s.Name, g.QuizOne, g.Attendance, g.Midterms, g.Finals, g.Project, g.TotalScore " +
+                "FROM Students s " +
+                "LEFT JOIN Grades g ON s.Id = g.StudentId " +
+                "WHERE s.Id = @Id";
+
+            SqlCommand selectCommand = new SqlCommand(selectStatement, sqlConnection);
+            selectCommand.Parameters.AddWithValue("@Id", id);
+
             sqlConnection.Open();
+            SqlDataReader reader = selectCommand.ExecuteReader();
 
-            string query = @"
-                SELECT
-                    s.Id,
-                    s.Name,
-                    g.QuizOne,
-                    g.Attendance,
-                    g.Midterms,
-                    g.Finals,
-                    g.Project,
-                    g.TotalScore
-                FROM Students s
-                LEFT JOIN Grades g ON s.Id = g.StudentId
-                WHERE s.Id = @Id";
+            Student student = new Student();
+            student.Grades = new Grades();
 
-            using SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
-            sqlCommand.Parameters.AddWithValue("@Id", id);
+            bool studentExists = false;
 
-            using SqlDataReader reader = sqlCommand.ExecuteReader();
-
-            if (reader.Read())
+            while (reader.Read())
             {
-                return MapStudent(reader);
+                studentExists = true;
+
+                student.Id = Convert.ToInt32(reader["Id"]);
+                student.Name = reader["Name"].ToString() ?? string.Empty;
+
+                // If a student has no saved grades yet, the default values stay 0.
+                if (reader["QuizOne"] != DBNull.Value)
+                {
+                    student.Grades.QuizOne = Convert.ToDouble(reader["QuizOne"]);
+                }
+
+                if (reader["Attendance"] != DBNull.Value)
+                {
+                    student.Grades.Attendance = Convert.ToDouble(reader["Attendance"]);
+                }
+
+                if (reader["Midterms"] != DBNull.Value)
+                {
+                    student.Grades.Midterms = Convert.ToDouble(reader["Midterms"]);
+                }
+
+                if (reader["Finals"] != DBNull.Value)
+                {
+                    student.Grades.Finals = Convert.ToDouble(reader["Finals"]);
+                }
+
+                if (reader["Project"] != DBNull.Value)
+                {
+                    student.Grades.Project = Convert.ToDouble(reader["Project"]);
+                }
+
+                if (reader["TotalScore"] != DBNull.Value)
+                {
+                    student.Grades.TotalScore = Convert.ToDouble(reader["TotalScore"]);
+                }
             }
 
-            throw new KeyNotFoundException($"Student with ID {id} was not found.");
+            sqlConnection.Close();
+
+            if (!studentExists)
+            {
+                throw new KeyNotFoundException($"Student with ID {id} was not found.");
+            }
+
+            return student;
         }
 
         public void SaveStudent(Student updatedStudent)
         {
-            using SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
+            bool studentExists = StudentExists(updatedStudent.Id);
 
-            if (!StudentExists(updatedStudent.Id))
+            if (!studentExists)
             {
-                string insertStudentQuery = @"
-                    INSERT INTO Students (Id, Name)
-                    VALUES (@Id, @Name)";
+                string insertStudentStatement =
+                    "INSERT INTO Students (Id, Name) VALUES (@Id, @Name)";
 
-                using SqlCommand insertStudentCommand = new SqlCommand(insertStudentQuery, sqlConnection);
+                SqlCommand insertStudentCommand = new SqlCommand(insertStudentStatement, sqlConnection);
                 insertStudentCommand.Parameters.AddWithValue("@Id", updatedStudent.Id);
                 insertStudentCommand.Parameters.AddWithValue("@Name", updatedStudent.Name);
+
+                sqlConnection.Open();
                 insertStudentCommand.ExecuteNonQuery();
+                sqlConnection.Close();
             }
             else
             {
-                string updateStudentQuery = @"
-                    UPDATE Students
-                    SET Name = @Name
-                    WHERE Id = @Id";
+                string updateStudentStatement =
+                    "UPDATE Students SET Name = @Name WHERE Id = @Id";
 
-                using SqlCommand updateStudentCommand = new SqlCommand(updateStudentQuery, sqlConnection);
+                SqlCommand updateStudentCommand = new SqlCommand(updateStudentStatement, sqlConnection);
                 updateStudentCommand.Parameters.AddWithValue("@Id", updatedStudent.Id);
                 updateStudentCommand.Parameters.AddWithValue("@Name", updatedStudent.Name);
+
+                sqlConnection.Open();
                 updateStudentCommand.ExecuteNonQuery();
+                sqlConnection.Close();
             }
 
-            string mergeGradesQuery = @"
-                MERGE Grades AS target
-                USING (SELECT @StudentId AS StudentId) AS source
-                ON target.StudentId = source.StudentId
-                WHEN MATCHED THEN
-                    UPDATE SET
-                        QuizOne = @QuizOne,
-                        Attendance = @Attendance,
-                        Midterms = @Midterms,
-                        Finals = @Finals,
-                        Project = @Project,
-                        TotalScore = @TotalScore
-                WHEN NOT MATCHED THEN
-                    INSERT (StudentId, QuizOne, Attendance, Midterms, Finals, Project, TotalScore)
-                    VALUES (@StudentId, @QuizOne, @Attendance, @Midterms, @Finals, @Project, @TotalScore);";
+            bool gradeRecordExists = GradeRecordExists(updatedStudent.Id);
 
-            using SqlCommand mergeGradesCommand = new SqlCommand(mergeGradesQuery, sqlConnection);
-            mergeGradesCommand.Parameters.AddWithValue("@StudentId", updatedStudent.Id);
-            mergeGradesCommand.Parameters.AddWithValue("@QuizOne", updatedStudent.Grades.QuizOne);
-            mergeGradesCommand.Parameters.AddWithValue("@Attendance", updatedStudent.Grades.Attendance);
-            mergeGradesCommand.Parameters.AddWithValue("@Midterms", updatedStudent.Grades.Midterms);
-            mergeGradesCommand.Parameters.AddWithValue("@Finals", updatedStudent.Grades.Finals);
-            mergeGradesCommand.Parameters.AddWithValue("@Project", updatedStudent.Grades.Project);
-            mergeGradesCommand.Parameters.AddWithValue("@TotalScore", updatedStudent.Grades.TotalScore);
-            mergeGradesCommand.ExecuteNonQuery();
+            if (!gradeRecordExists)
+            {
+                string insertGradeStatement =
+                    "INSERT INTO Grades (StudentId, QuizOne, Attendance, Midterms, Finals, Project, TotalScore) " +
+                    "VALUES (@StudentId, @QuizOne, @Attendance, @Midterms, @Finals, @Project, @TotalScore)";
+
+                SqlCommand insertGradeCommand = new SqlCommand(insertGradeStatement, sqlConnection);
+                insertGradeCommand.Parameters.AddWithValue("@StudentId", updatedStudent.Id);
+                insertGradeCommand.Parameters.AddWithValue("@QuizOne", updatedStudent.Grades.QuizOne);
+                insertGradeCommand.Parameters.AddWithValue("@Attendance", updatedStudent.Grades.Attendance);
+                insertGradeCommand.Parameters.AddWithValue("@Midterms", updatedStudent.Grades.Midterms);
+                insertGradeCommand.Parameters.AddWithValue("@Finals", updatedStudent.Grades.Finals);
+                insertGradeCommand.Parameters.AddWithValue("@Project", updatedStudent.Grades.Project);
+                insertGradeCommand.Parameters.AddWithValue("@TotalScore", updatedStudent.Grades.TotalScore);
+
+                sqlConnection.Open();
+                insertGradeCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
+            else
+            {
+                string updateGradeStatement =
+                    "UPDATE Grades SET QuizOne = @QuizOne, Attendance = @Attendance, Midterms = @Midterms, " +
+                    "Finals = @Finals, Project = @Project, TotalScore = @TotalScore WHERE StudentId = @StudentId";
+
+                SqlCommand updateGradeCommand = new SqlCommand(updateGradeStatement, sqlConnection);
+                updateGradeCommand.Parameters.AddWithValue("@StudentId", updatedStudent.Id);
+                updateGradeCommand.Parameters.AddWithValue("@QuizOne", updatedStudent.Grades.QuizOne);
+                updateGradeCommand.Parameters.AddWithValue("@Attendance", updatedStudent.Grades.Attendance);
+                updateGradeCommand.Parameters.AddWithValue("@Midterms", updatedStudent.Grades.Midterms);
+                updateGradeCommand.Parameters.AddWithValue("@Finals", updatedStudent.Grades.Finals);
+                updateGradeCommand.Parameters.AddWithValue("@Project", updatedStudent.Grades.Project);
+                updateGradeCommand.Parameters.AddWithValue("@TotalScore", updatedStudent.Grades.TotalScore);
+
+                sqlConnection.Open();
+                updateGradeCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
         }
 
         public void UpdateStudent(Student updatedStudent)
@@ -155,41 +250,84 @@ namespace Nayan_Grade_Management.GradeManagementDataService
 
         public void DeleteStudentGrades(int id)
         {
-            using SqlConnection sqlConnection = new SqlConnection(connectionString);
+            bool gradeRecordExists = GradeRecordExists(id);
+
+            if (!gradeRecordExists)
+            {
+                string insertGradeStatement =
+                    "INSERT INTO Grades (StudentId, QuizOne, Attendance, Midterms, Finals, Project, TotalScore) " +
+                    "VALUES (@StudentId, 0, 0, 0, 0, 0, 0)";
+
+                SqlCommand insertGradeCommand = new SqlCommand(insertGradeStatement, sqlConnection);
+                insertGradeCommand.Parameters.AddWithValue("@StudentId", id);
+
+                sqlConnection.Open();
+                insertGradeCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
+            else
+            {
+                string resetGradeStatement =
+                    "UPDATE Grades SET QuizOne = 0, Attendance = 0, Midterms = 0, Finals = 0, " +
+                    "Project = 0, TotalScore = 0 WHERE StudentId = @StudentId";
+
+                SqlCommand resetGradeCommand = new SqlCommand(resetGradeStatement, sqlConnection);
+                resetGradeCommand.Parameters.AddWithValue("@StudentId", id);
+
+                sqlConnection.Open();
+                resetGradeCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
+        }
+
+        private bool GradeRecordExists(int studentId)
+        {
+            string selectStatement = "SELECT StudentId FROM Grades WHERE StudentId = @StudentId";
+
+            SqlCommand selectCommand = new SqlCommand(selectStatement, sqlConnection);
+            selectCommand.Parameters.AddWithValue("@StudentId", studentId);
+
             sqlConnection.Open();
+            SqlDataReader reader = selectCommand.ExecuteReader();
 
-            string resetGradesQuery = @"
-                MERGE Grades AS target
-                USING (SELECT @StudentId AS StudentId) AS source
-                ON target.StudentId = source.StudentId
-                WHEN MATCHED THEN
-                    UPDATE SET
-                        QuizOne = 0,
-                        Attendance = 0,
-                        Midterms = 0,
-                        Finals = 0,
-                        Project = 0,
-                        TotalScore = 0
-                WHEN NOT MATCHED THEN
-                    INSERT (StudentId, QuizOne, Attendance, Midterms, Finals, Project, TotalScore)
-                    VALUES (@StudentId, 0, 0, 0, 0, 0, 0);";
+            bool gradeRecordExists = false;
 
-            using SqlCommand resetGradesCommand = new SqlCommand(resetGradesQuery, sqlConnection);
-            resetGradesCommand.Parameters.AddWithValue("@StudentId", id);
-            resetGradesCommand.ExecuteNonQuery();
+            while (reader.Read())
+            {
+                gradeRecordExists = true;
+            }
+
+            sqlConnection.Close();
+
+            return gradeRecordExists;
         }
 
         private void AddSeeds()
         {
-            List<Student> existing = GetAllStudents();
+            List<Student> students = GetAllStudents();
+            bool hasNoStudents = students.Count == 0;
 
-            if (existing.Count == 0)
+            if (hasNoStudents)
             {
-                Student studentOne = new Student { Id = 0, Name = "John Carlo Nayan" };
-                Student studentTwo = new Student { Id = 1, Name = "Lebron James" };
-                Student studentThree = new Student { Id = 2, Name = "Paul George" };
-                Student studentFour = new Student { Id = 3, Name = "Boss Atan" };
-                Student studentFive = new Student { Id = 4, Name = "Beabadobee" };
+                Student studentOne = new Student();
+                studentOne.Id = 0;
+                studentOne.Name = "John Carlo Nayan";
+
+                Student studentTwo = new Student();
+                studentTwo.Id = 1;
+                studentTwo.Name = "Lebron James";
+
+                Student studentThree = new Student();
+                studentThree.Id = 2;
+                studentThree.Name = "Paul George";
+
+                Student studentFour = new Student();
+                studentFour.Id = 3;
+                studentFour.Name = "Boss Atan";
+
+                Student studentFive = new Student();
+                studentFive.Id = 4;
+                studentFive.Name = "Beabadobee";
 
                 SaveStudent(studentOne);
                 SaveStudent(studentTwo);
@@ -197,36 +335,6 @@ namespace Nayan_Grade_Management.GradeManagementDataService
                 SaveStudent(studentFour);
                 SaveStudent(studentFive);
             }
-        }
-
-        private static Student MapStudent(SqlDataReader reader)
-        {
-            return new Student
-            {
-                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                Name = reader.GetString(reader.GetOrdinal("Name")),
-                Grades = new Grades
-                {
-                    QuizOne = GetDoubleValue(reader, "QuizOne"),
-                    Attendance = GetDoubleValue(reader, "Attendance"),
-                    Midterms = GetDoubleValue(reader, "Midterms"),
-                    Finals = GetDoubleValue(reader, "Finals"),
-                    Project = GetDoubleValue(reader, "Project"),
-                    TotalScore = GetDoubleValue(reader, "TotalScore")
-                }
-            };
-        }
-
-        private static double GetDoubleValue(SqlDataReader reader, string columnName)
-        {
-            int ordinal = reader.GetOrdinal(columnName);
-
-            if (reader.IsDBNull(ordinal))
-            {
-                return 0;
-            }
-
-            return Convert.ToDouble(reader.GetValue(ordinal));
         }
     }
 }

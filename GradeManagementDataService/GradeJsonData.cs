@@ -57,7 +57,9 @@ namespace Nayan_Grade_Management.GradeManagementDataService
 
         private void RetrieveDataFromJsonFile()
         {
-            if (!File.Exists(_jsonFileName))
+            bool jsonFileExists = File.Exists(_jsonFileName);
+
+            if (!jsonFileExists)
             {
                 students = new List<Student>();
                 return;

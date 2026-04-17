@@ -16,13 +16,17 @@ namespace Nayan_Grade_Management
                 string? choiceInput = Console.ReadLine();
                 Console.WriteLine();
 
-                if (!int.TryParse(choiceInput, out int userChoice))
+                bool isChoiceInputValid = int.TryParse(choiceInput, out int userChoice);
+
+                if (!isChoiceInputValid)
                 {
                     Console.Write("Invalid\n\n");
                     continue;
                 }
 
-                if (!gradeAppService.IsValidMenuChoice(userChoice))
+                bool isMenuChoiceValid = gradeAppService.IsValidMenuChoice(userChoice);
+
+                if (!isMenuChoiceValid)
                 {
                     Console.Write("Invalid\n\n");
                     continue;
@@ -75,19 +79,26 @@ namespace Nayan_Grade_Management
             Console.Write("Student ID Number: ");
             string? studentIdInput = Console.ReadLine();
 
-            if (!int.TryParse(studentIdInput, out int studentId))
+            bool isStudentIdValid = int.TryParse(studentIdInput, out int studentId);
+
+            if (!isStudentIdValid)
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
             }
 
-            if (!gradeAppService.IsValidStudentId(studentId, gradeAppService.GetAllStudents().Count))
+            int studentCount = gradeAppService.GetAllStudents().Count;
+            bool isStudentIdInRange = gradeAppService.IsValidStudentId(studentId, studentCount);
+
+            if (!isStudentIdInRange)
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
             }
 
-            if (!gradeAppService.StudentExists(studentId))
+            bool doesStudentExist = gradeAppService.StudentExists(studentId);
+
+            if (!doesStudentExist)
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
@@ -112,19 +123,26 @@ namespace Nayan_Grade_Management
             Console.Write("Student ID Number: ");
             string? studentIdInput = Console.ReadLine();
 
-            if (!int.TryParse(studentIdInput, out int studentId))
+            bool isStudentIdValid = int.TryParse(studentIdInput, out int studentId);
+
+            if (!isStudentIdValid)
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
             }
 
-            if (!gradeAppService.IsValidStudentId(studentId, gradeAppService.GetAllStudents().Count))
+            int studentCount = gradeAppService.GetAllStudents().Count;
+            bool isStudentIdInRange = gradeAppService.IsValidStudentId(studentId, studentCount);
+
+            if (!isStudentIdInRange)
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
             }
 
-            if (!gradeAppService.StudentExists(studentId))
+            bool doesStudentExist = gradeAppService.StudentExists(studentId);
+
+            if (!doesStudentExist)
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
@@ -148,19 +166,26 @@ namespace Nayan_Grade_Management
             Console.Write("Student ID Number: ");
             string? studentIdInput = Console.ReadLine();
 
-            if (!int.TryParse(studentIdInput, out int studentId))
+            bool isStudentIdValid = int.TryParse(studentIdInput, out int studentId);
+
+            if (!isStudentIdValid)
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
             }
 
-            if (!gradeAppService.IsValidStudentId(studentId, gradeAppService.GetAllStudents().Count))
+            int studentCount = gradeAppService.GetAllStudents().Count;
+            bool isStudentIdInRange = gradeAppService.IsValidStudentId(studentId, studentCount);
+
+            if (!isStudentIdInRange)
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
             }
 
-            if (!gradeAppService.StudentExists(studentId))
+            bool doesStudentExist = gradeAppService.StudentExists(studentId);
+
+            if (!doesStudentExist)
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
@@ -176,19 +201,26 @@ namespace Nayan_Grade_Management
             Console.Write("Student ID Number: ");
             string? studentIdInput = Console.ReadLine();
 
-            if (!int.TryParse(studentIdInput, out int studentId))
+            bool isStudentIdValid = int.TryParse(studentIdInput, out int studentId);
+
+            if (!isStudentIdValid)
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
             }
 
-            if (!gradeAppService.IsValidStudentId(studentId, gradeAppService.GetAllStudents().Count))
+            int studentCount = gradeAppService.GetAllStudents().Count;
+            bool isStudentIdInRange = gradeAppService.IsValidStudentId(studentId, studentCount);
+
+            if (!isStudentIdInRange)
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
             }
 
-            if (!gradeAppService.StudentExists(studentId))
+            bool doesStudentExist = gradeAppService.StudentExists(studentId);
+
+            if (!doesStudentExist)
             {
                 Console.WriteLine("Invalid ID Number");
                 return;
@@ -206,13 +238,17 @@ namespace Nayan_Grade_Management
 
             string? gradeFieldInput = Console.ReadLine();
 
-            if (!int.TryParse(gradeFieldInput, out int gradeFieldChoice))
+            bool isGradeFieldValid = int.TryParse(gradeFieldInput, out int gradeFieldChoice);
+
+            if (!isGradeFieldValid)
             {
                 Console.WriteLine("Invalid Grade Field");
                 return;
             }
 
-            if (!gradeAppService.IsValidGradeFieldChoice(gradeFieldChoice))
+            bool isGradeFieldChoiceValid = gradeAppService.IsValidGradeFieldChoice(gradeFieldChoice);
+
+            if (!isGradeFieldChoiceValid)
             {
                 Console.WriteLine("Invalid Grade Field");
                 return;
@@ -261,13 +297,17 @@ namespace Nayan_Grade_Management
                 Console.Write(prompt);
                 string? scoreInput = Console.ReadLine();
 
-                if (!double.TryParse(scoreInput, out double score))
+                bool isScoreValid = double.TryParse(scoreInput, out double score);
+
+                if (!isScoreValid)
                 {
                     Console.Write("\n====================\n" + invalidMessage + "\n====================\n\n");
                     continue;
                 }
 
-                if (!gradeAppService.IsValidScore(score, maxScore))
+                bool isScoreInRange = gradeAppService.IsValidScore(score, maxScore);
+
+                if (!isScoreInRange)
                 {
                     Console.Write("\n====================\n" + invalidMessage + "\n====================\n\n");
                     continue;
