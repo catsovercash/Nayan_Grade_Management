@@ -6,9 +6,9 @@ namespace Nayan_Grade_Management.GradeManagementAppService
 {
     public class GradeAppService
     {
-        //GradeDataService gradeDataService = new GradeDataService(new GradeDBData());
+        GradeDataService gradeDataService = new GradeDataService(new GradeDBData());
         //GradeDataService gradeDataService = new GradeDataService(new GradeInMemoryData());
-        GradeDataService gradeDataService = new GradeDataService(new GradeJsonData());
+        //GradeDataService gradeDataService = new GradeDataService(new GradeJsonData());
 
         public List<Student> GetAllStudents()
         {

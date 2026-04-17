@@ -26,28 +26,45 @@ namespace Nayan_Grade_Management.GradeManagementDataService
 
         public bool StudentExists(int id)
         {
-            return students.Exists(student => student.Id == id);
+            for (int i = 0; i < students.Count; i++)
+            {
+                Student student = students[i];
+
+                if (student.Id == id)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public Student GetStudentById(int id)
         {
-            Student? student = students.Find(existingStudent => existingStudent.Id == id);
-
-            if (student is null)
+            for (int i = 0; i < students.Count; i++)
             {
-                throw new KeyNotFoundException($"Student with ID {id} was not found.");
+                Student student = students[i];
+
+                if (student.Id == id)
+                {
+                    return student;
+                }
             }
 
-            return student;
+            throw new KeyNotFoundException($"Student with ID {id} was not found.");
         }
 
         public void SaveStudent(Student updatedStudent)
         {
-            int studentIndex = students.FindIndex(student => student.Id == updatedStudent.Id);
-
-            if (studentIndex >= 0)
+            for (int i = 0; i < students.Count; i++)
             {
-                students[studentIndex] = updatedStudent;
+                Student student = students[i];
+
+                if (student.Id == updatedStudent.Id)
+                {
+                    students[i] = updatedStudent;
+                    break;
+                }
             }
         }
 
@@ -58,11 +75,15 @@ namespace Nayan_Grade_Management.GradeManagementDataService
 
         public void DeleteStudentGrades(int id)
         {
-            Student? student = students.Find(existingStudent => existingStudent.Id == id);
-
-            if (student is not null)
+            for (int i = 0; i < students.Count; i++)
             {
-                student.Grades = new Grades();
+                Student student = students[i];
+
+                if (student.Id == id)
+                {
+                    student.Grades = new Grades();
+                    break;
+                }
             }
         }
     }

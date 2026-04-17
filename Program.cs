@@ -218,15 +218,30 @@ namespace Nayan_Grade_Management
                 return;
             }
 
-            double updatedScore = gradeFieldChoice switch
+            double updatedScore = 0;
+
+            switch (gradeFieldChoice)
             {
-                1 => PromptScore(gradeAppService, student.Name + "'s Quiz One", "Quiz 1 Score (?/20): ", 20, "Quiz 1 Score must be 0 - 20"),
-                2 => PromptScore(gradeAppService, student.Name + "'s Attendance", "Attendance Score (?/24): ", 24, "Attendance Score must be 0 - 24"),
-                3 => PromptScore(gradeAppService, student.Name + "'s Midterms", "Midterms Score (?/100): ", 100, "Midterms Score must be 0 - 100"),
-                4 => PromptScore(gradeAppService, student.Name + "'s Finals", "Finals Score (?/100): ", 100, "Finals Score must be 0 - 100"),
-                5 => PromptScore(gradeAppService, student.Name + "'s Project", "Project Score (?/100): ", 100, "Project Score must be 0 - 100"),
-                _ => 0
-            };
+                case 1:
+                    updatedScore = PromptScore(gradeAppService, student.Name + "'s Quiz One", "Quiz 1 Score (?/20): ", 20, "Quiz 1 Score must be 0 - 20");
+                    break;
+
+                case 2:
+                    updatedScore = PromptScore(gradeAppService, student.Name + "'s Attendance", "Attendance Score (?/24): ", 24, "Attendance Score must be 0 - 24");
+                    break;
+
+                case 3:
+                    updatedScore = PromptScore(gradeAppService, student.Name + "'s Midterms", "Midterms Score (?/100): ", 100, "Midterms Score must be 0 - 100");
+                    break;
+
+                case 4:
+                    updatedScore = PromptScore(gradeAppService, student.Name + "'s Finals", "Finals Score (?/100): ", 100, "Finals Score must be 0 - 100");
+                    break;
+
+                case 5:
+                    updatedScore = PromptScore(gradeAppService, student.Name + "'s Project", "Project Score (?/100): ", 100, "Project Score must be 0 - 100");
+                    break;
+            }
 
             gradeAppService.UpdateStudentGrade(student, gradeFieldChoice, updatedScore);
             Console.WriteLine("Student grade updated successfully");

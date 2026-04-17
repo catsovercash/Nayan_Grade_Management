@@ -9,7 +9,7 @@ namespace Nayan_Grade_Management.GradeManagementDataService
     public class GradeJsonData : IGradeDataService
     {
 
-        public List<Student> students;
+        public List<Student> students = new List<Student>();
 
         private string _jsonFileName;
 
@@ -82,31 +82,50 @@ namespace Nayan_Grade_Management.GradeManagementDataService
         public bool StudentExists(int id)
         {
             RetrieveDataFromJsonFile();
-            return students.Exists(student => student.Id == id);
+
+            for (int i = 0; i < students.Count; i++)
+            {
+                Student student = students[i];
+
+                if (student.Id == id)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public Student GetStudentById(int id)
         {
             RetrieveDataFromJsonFile();
-            Student? student = students.Find(existingStudent => existingStudent.Id == id);
 
-            if (student is null)
+            for (int i = 0; i < students.Count; i++)
             {
-                throw new KeyNotFoundException($"Student with ID {id} was not found.");
+                Student student = students[i];
+
+                if (student.Id == id)
+                {
+                    return student;
+                }
             }
 
-            return student;
+            throw new KeyNotFoundException($"Student with ID {id} was not found.");
         }
 
         public void SaveStudent(Student updatedStudent)
         {
             RetrieveDataFromJsonFile();
 
-            int index = students.FindIndex(s => s.Id == updatedStudent.Id);
-
-            if (index >= 0)
+            for (int i = 0; i < students.Count; i++)
             {
-                students[index] = updatedStudent;
+                Student student = students[i];
+
+                if (student.Id == updatedStudent.Id)
+                {
+                    students[i] = updatedStudent;
+                    break;
+                }
             }
 
             SaveDataToJsonFile();
@@ -121,12 +140,16 @@ namespace Nayan_Grade_Management.GradeManagementDataService
         {
             RetrieveDataFromJsonFile();
 
-            Student? student = students.Find(existingStudent => existingStudent.Id == id);
-
-            if (student is not null)
+            for (int i = 0; i < students.Count; i++)
             {
-                student.Grades = new Grades();
-                SaveDataToJsonFile();
+                Student student = students[i];
+
+                if (student.Id == id)
+                {
+                    student.Grades = new Grades();
+                    SaveDataToJsonFile();
+                    break;
+                }
             }
         }
 
